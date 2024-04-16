@@ -1,22 +1,19 @@
-require('dotenv').config()
-
 const express = require('express');
-const router = require('vite-express');
 const app = express();
+const router = require('./api/routes');
 
-const bodyParser = require('body-parser')
-app.use(bodyParser.json());
+app.use(express.json());
+app.use('/api', router);
+app.use(express.static('public'));
 
-app.use(express.static('public'))
+app.use((err, req, res, next) => {
+	console.error(err);
+	res.status(err.status || 500).send(err.message || 'Internal server error.');
+	next(err);
+});
 
-const db = require('./db/client')
-db.connect()
+const port = 3000;
 
-const apiRouter = require('./api');
-app.use('/api', apiRouter);
-
-router.listen(app, 3000, () =>
-  console.log('Server is listening on port 3000...')
-);
-
-module.exports = router;
+app.listen(port, () => {
+	console.log(`Listening on http://localhost:3000`);
+});
