@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 
 async function seedData() {
 	try {
-    
 		// Clear database
 
 		await prisma.Comment.deleteMany();
@@ -227,7 +226,9 @@ async function seedData() {
 
 		console.log('DB seeded');
 	} catch (error) {
-		console.error(error);
+		console.error('Data could not be seeded.', error);
+	} finally {
+		await prisma.$disconnect();
 	}
 }
 
