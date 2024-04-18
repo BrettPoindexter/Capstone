@@ -16,7 +16,7 @@ datasource db {
 model User {
   id       Int       @id @default(autoincrement())
   name     String    @db.VarChar(50)
-  email    String
+  email    String    @unique
   password String
   comments Comment[]
   reviews  Review[]
@@ -47,7 +47,7 @@ model Comment {
   id       Int    @id @default(autoincrement())
   text     String
   reviewId Int
-  review   Review @relation(fields: [reviewId], references: [id])
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   userId   Int
   user     User   @relation(fields: [userId], references: [id])
 }
