@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-const router = require('./api/routes');
+const routes = require('./api/routes');
+const router = require('vite-express')
 
 app.use(express.json());
-app.use('/api', router);
+app.use('/api', routes);
 app.use(express.static('public'));
 
 app.use((err, req, res, next) => {
@@ -14,6 +15,6 @@ app.use((err, req, res, next) => {
 
 const port = 3000;
 
-app.listen(port, () => {
+router.listen(app, port, () => {
 	console.log(`Listening on http://localhost:3000`);
 });
