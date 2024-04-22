@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authenticateToken = require('./authenticate');
 
-const { createUser, getUser, getUserByEmail } = require('../db/users');
+const { createUser, getUserByEmail } = require('../db/users');
 
 // Get all stadiums
 
@@ -57,8 +57,8 @@ router.post('/login', async (req, res, next) => {
 		});
 	}
 	try {
-		const user = await getUser({ email, password });
-		if (user) {
+		const user = await getUserByEmail(email);
+		if (user && await bcrypt.compare(password, user.password)) {
 			const token = jwt.sign(
 				{
 					id: user.id,
@@ -70,7 +70,7 @@ router.post('/login', async (req, res, next) => {
 				}
 			);
 
-			res.send({
+			res.json({
 				message: 'Login successful!',
 				token,
 			});
