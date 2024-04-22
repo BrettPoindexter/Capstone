@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useLoginMutation } from '../auth/authSlice'; // Adjust the import path
+import { useLoginMutation } from '../auth/authSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
-  const [login, { isLoading }] = useLoginMutation(); // Destructure the login function and isLoading flag
+  const [login, { isLoading }] = useLoginMutation(); 
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
