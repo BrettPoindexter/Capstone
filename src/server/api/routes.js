@@ -48,7 +48,7 @@ router.get('/stadiums/:id', async (req, res, next) => {
 
 // Login endpoint
 
-router.post('/login', async (req, res, next) => {
+router.post('/users/login', async (req, res, next) => {
 	const { email, password } = req.body;
 	if (!email || !password) {
 		next({
@@ -87,7 +87,7 @@ router.post('/login', async (req, res, next) => {
 
 // Register endpoint
 
-router.post('/register', async (req, res, next) => {
+router.post('/users/register', async (req, res, next) => {
 	const { name, email, password } = req.body;
 
 	try {
@@ -205,11 +205,15 @@ router.delete(
 	authenticateToken,
 	async (req, res, next) => {
 		try {
+			console.log(req.user.id);
 			const userId = req.user.id;
 			const reviewId = parseInt(req.params.reviewId);
 			const review = await prisma.Review.findUnique({
 				where: {
 					id: reviewId,
+				},
+				include: {
+					user: true,
 				},
 			});
 			if (review.user.id !== userId) {
@@ -253,5 +257,7 @@ router.delete(
 		}
 	}
 );
+
+
 
 module.exports = router;
