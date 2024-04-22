@@ -48,7 +48,7 @@ router.get('/stadiums/:id', async (req, res, next) => {
 
 // Login endpoint
 
-router.post('/users/login', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
 	const { email, password } = req.body;
 	if (!email || !password) {
 		next({
@@ -87,7 +87,7 @@ router.post('/users/login', async (req, res, next) => {
 
 // Register endpoint
 
-router.post('/users/register', async (req, res, next) => {
+router.post('/register', async (req, res, next) => {
 	const { name, email, password } = req.body;
 
 	try {
