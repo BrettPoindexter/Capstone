@@ -1,35 +1,39 @@
 import React, { useState } from 'react';
-import { useLoginMutation } from '../auth/authSlice';
+import { useLoginMutation } from '../auth/authSlice'; // Adjust the import path
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation(); // Destructure the login function and isLoading flag
 
-	const handleEmailChange = (e) => {
-		setEmail(e.target.value);
-	};
-
-	const handlePasswordChange = (e) => {
-		setPassword(e.target.value);
-	};
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const { data } = await login({ email, password }); 
-      setMessage(data.message); 
-      setError(null); 
-      setEmail(''); 
-      setPassword(''); 
-    } catch (error) {
-      setError(error.message || 'Login failed');
-      setMessage(''); 
-    }
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await login({ email, password });
+    console.log('Response:', response);
+    if (response.error) {
+      throw new Error(response.error.message || 'Login failed');
+    }
+    setMessage(response.message); 
+    setError(null); 
+    setEmail(''); 
+    setPassword('');
+  } catch (error) {
+    setError(error.message || 'Login failed');
+    setMessage('');
+  }
+};
 
   return (
     <div>
@@ -64,3 +68,4 @@ const Login = () => {
 };
 
 export default Login;
+
