@@ -10,7 +10,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "http://localhost:5432/capstone_review_website"
+  // env("DATABASE_URL")
 }
 
 model User {

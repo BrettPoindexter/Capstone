@@ -1,3 +1,4 @@
+require("dotenv").config();
 const faker = require('faker');
 const prisma = require('./index.js');
 const bcrypt = require('bcrypt');
@@ -8,10 +9,10 @@ async function seedData() {
 	try {
 		// Clear database
 
-		await prisma.Comment.deleteMany();
-		await prisma.Review.deleteMany();
-		await prisma.Stadium.deleteMany();
-		await prisma.User.deleteMany();
+		await prisma.comment.deleteMany();
+		await prisma.review.deleteMany();
+		await prisma.stadium.deleteMany();
+		await prisma.user.deleteMany();
 
 		// Create 64 users
 

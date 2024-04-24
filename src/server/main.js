@@ -1,7 +1,10 @@
+require("dotenv").config();
 const express = require('express');
 const app = express();
 const routes = require('./api/routes');
 const router = require('vite-express')
+//set up .env file
+
 
 app.use(express.json());
 app.use('/api', routes);
