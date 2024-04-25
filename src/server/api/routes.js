@@ -18,6 +18,17 @@ router.get('/stadiums', async (req, res, next) => {
 	}
 });
 
+// Get all users
+
+router.get('/users', async (req, res, next) => {
+	try {
+		const users = await prisma.User.findMany();
+		res.json({ users });
+	} catch ({ name, message }) {
+		next({ name, message });
+	}
+});
+
 // Get single stadium
 
 router.get('/stadiums/:id', async (req, res, next) => {
@@ -58,7 +69,7 @@ router.post('/login', async (req, res, next) => {
 	}
 	try {
 		const user = await getUserByEmail(email);
-		if (user && await bcrypt.compare(password, user.password)) {
+		if (user && (await bcrypt.compare(password, user.password))) {
 			const token = jwt.sign(
 				{
 					id: user.id,
@@ -231,6 +242,8 @@ router.delete(
 	}
 );
 
+// Delete comment
+
 router.delete(
 	'/reviews/:reviewId/comments/:commentId',
 	authenticateToken,
@@ -258,6 +271,22 @@ router.delete(
 	}
 );
 
+// Delete user
 
+router.delete('/user/:id', authenticateToken, async (req, res, next) => {
+	try {
+		if (req.user.id !== parseInt(req.params.id)) {
+			return res.status(403).json({ error: 'Unauthorized' });
+		}
+		await prisma.User.delete({
+			where: {
+				id: req.params.id,
+			},
+		});
+		res.json({ message: 'User deleted' });
+	} catch (error) {
+		next(error);
+	}
+});
 
 module.exports = router;
