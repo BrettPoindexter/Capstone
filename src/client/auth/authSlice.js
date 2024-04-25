@@ -15,7 +15,7 @@ const authApi = api.injectEndpoints({
         }),
         login: builder.mutation({
             query: (credentials) => ({
-                url: "auth/login",
+                url: "/api/login",
                 method: "POST",
                 body: credentials,
             }),
@@ -29,7 +29,7 @@ const authApi = api.injectEndpoints({
         }),
         register: builder.mutation({
             query: (credentials) => ({
-                url: "auth/register",
+                url: "/api/register",
                 method: "POST",
                 body: credentials
             }),
@@ -62,7 +62,7 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder.addMatcher(api.endpoints.login.matchFulfilled, storeToken);
         builder.addMatcher(api.endpoints.register.matchFulfilled, storeToken);
-        builder.addMathcer(api.endpoints.logout.matchFulfilled, (state) => {
+        builder.addMatcher(api.endpoints.logout.matchFulfilled, (state) => {
             state.token = null;
             window.sessionStorage.removeItem(TOKEN);
         });

@@ -11,10 +11,11 @@ function AuthForm() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
     const authType = isLogin ? 'Login' : 'Register';
     const oppositeAuthCopy = isLogin
         ? "Don't have an account?"
@@ -24,33 +25,48 @@ function AuthForm() {
     /**
      * Send credentials to server for authentication
      */
-    async function attemptAuth(e) {
-        e.preventDefault();
-        setError(null);
+async function attemptAuth(e) {
+    e.preventDefault();
+    setError(null);
 
-        const authMethod = isLogin ? login : register;
-        const credentials = { username, password };
+    const authMethod = isLogin ? login : register;
+    const credentials = isLogin ? { email, password } : { name, email, password };
 
-        try {
-            setLoading(true);
-            await authMethod(credentials).unwrap();
-        } catch (err) {
-            setLoading(false);
-            setError(err.data);
-        }
-    };
+    try {
+        setLoading(true);
+        await authMethod(credentials).unwrap();
+    } catch (err) {
+        setLoading(false);
+        setError(err.data);
+    }
+};
+
 
     return (
         <main>
             <h1>{authType}</h1>
             <form onSubmit={attemptAuth} name={authType}>
+                {!isLogin && ( // Conditionally render username input for registration
+                    <label>
+                        Username
+                        <input
+                            type='text'
+                            name='name'
+                            value={name}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                            }}
+                        />
+                    </label>
+                )}
                 <label>
-                    Username
+                    Email
                     <input
-                        type='text'
-                        name='username'
+                        type='email'
+                        name='email'
+                        value={email}
                         onChange={(e) => {
-                            setUsername(e.target.value);
+                            setEmail(e.target.value);
                         }}
                     />
                 </label>
@@ -59,6 +75,7 @@ function AuthForm() {
                     <input
                         type='password'
                         name='password'
+                        value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
                         }}
@@ -80,7 +97,7 @@ function AuthForm() {
                     {oppositeAuthType}
                 </a>
             </p>
-            {loading && <p>Loggin in...</p>}
+            {loading && <p>Logging in...</p>}
             {error && <p>{error}</p>}
         </main>
     );

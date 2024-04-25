@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authenticateToken = require('./authenticate');
 
-const { createUser, getUser, getUserByEmail } = require('../db/users');
+const { createUser, getUserByEmail } = require('../db/users');
 
 // Get all stadiums
 
@@ -57,8 +57,8 @@ router.post('/login', async (req, res, next) => {
 		});
 	}
 	try {
-		const user = await getUser({ email, password });
-		if (user) {
+		const user = await getUserByEmail(email);
+		if (user && await bcrypt.compare(password, user.password)) {
 			const token = jwt.sign(
 				{
 					id: user.id,
@@ -70,7 +70,7 @@ router.post('/login', async (req, res, next) => {
 				}
 			);
 
-			res.send({
+			res.json({
 				message: 'Login successful!',
 				token,
 			});
@@ -205,11 +205,15 @@ router.delete(
 	authenticateToken,
 	async (req, res, next) => {
 		try {
+			console.log(req.user.id);
 			const userId = req.user.id;
 			const reviewId = parseInt(req.params.reviewId);
 			const review = await prisma.Review.findUnique({
 				where: {
 					id: reviewId,
+				},
+				include: {
+					user: true,
 				},
 			});
 			if (review.user.id !== userId) {
@@ -253,5 +257,7 @@ router.delete(
 		}
 	}
 );
+
+
 
 module.exports = router;
