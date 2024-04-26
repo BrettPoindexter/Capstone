@@ -28,6 +28,8 @@ model Stadium {
   location String
   team     String
   reviews  Review[]
+  image    String?
+  division String?
 }
 
 model Review {
