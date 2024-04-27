@@ -72,54 +72,7 @@ function Copyright(props) {
 
     return (
         <main>
-            {/* <h1>{authType}</h1>
-            <form onSubmit={attemptAuth} name={authType}>
-                {!isLogin && ( // Conditionally render username input for registration
-                    <label>
-                        Username
-                        <input
-                            type='text'
-                            name='name'
-                            value={name}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                            }}
-                        />
-                    </label>
-                )}
-                <label>
-                    Email
-                    <input
-                        type='email'
-                        name='email'
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                        }}
-                    />
-                </label>
-                <label>
-                    Password
-                    <input
-                        type='password'
-                        name='password'
-                        value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                        }}
-                    />
-                </label>
-                <button type='submit'>{authType}</button>
-                {isLogin && <button onClick={(e) => {
-                    e.preventDefault();
-                    ghLogin();
-                }}>Login via Github</button>} 
-
-                </form>
-                */}
-
-
-<ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
