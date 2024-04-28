@@ -62,6 +62,9 @@ ToggleCustomTheme.propTypes = {
 
 
 function Home() {
+
+
+
   const [mode, setMode] = React.useState('light');
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
   const LPtheme = createTheme(getLPTheme(mode));
@@ -81,8 +84,8 @@ function Home() {
       <CssBaseline />
       <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
       <Hero />
+      <Divider />
       <Box sx={{ bgcolor: 'background.default' }}>
-        <Divider />
         <Stadiums />
         <Divider />
         <FAQ />
