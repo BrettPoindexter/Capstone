@@ -69,7 +69,7 @@ fetch('/api/stadiums')
             >
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                 <img src={stadiumImg} width={320} height={150}/>
+                 <img src={stadium.image} width={320} height={150}/>
                  <img src={fiveStars} width={200} height={30}/>
                 </Typography>
               </CardContent>
