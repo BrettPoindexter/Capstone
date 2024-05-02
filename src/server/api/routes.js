@@ -18,6 +18,17 @@ router.get('/stadiums', async (req, res, next) => {
 	}
 });
 
+// Get all users
+
+router.get('/users', async (req, res, next) => {
+	try {
+		const users = await prisma.User.findMany();
+		res.json({ users });
+	} catch ({ name, message }) {
+		next({ name, message });
+	}
+});
+
 // Get single stadium
 
 router.get('/stadiums/:id', async (req, res, next) => {
@@ -58,7 +69,7 @@ router.post('/login', async (req, res, next) => {
 	}
 	try {
 		const user = await getUserByEmail(email);
-		if (user && await bcrypt.compare(password, user.password)) {
+		if (user && (await bcrypt.compare(password, user.password))) {
 			const token = jwt.sign(
 				{
 					id: user.id,
@@ -231,6 +242,8 @@ router.delete(
 	}
 );
 
+// Delete comment
+
 router.delete(
 	'/reviews/:reviewId/comments/:commentId',
 	authenticateToken,
@@ -258,6 +271,94 @@ router.delete(
 	}
 );
 
+// Delete user
 
+router.delete('/user/:id', authenticateToken, async (req, res, next) => {
+	try {
+		if (req.user.id !== parseInt(req.params.id)) {
+			return res.status(403).json({ error: 'Unauthorized' });
+		}
+		await prisma.User.delete({
+			where: {
+				id: req.params.id,
+			},
+		});
+		res.json({ message: 'User deleted' });
+	} catch (error) {
+		next(error);
+	}
+});
+
+// Update Review
+
+router.put('/reviews/:reviewId', authenticateToken, async (req, res, next) => {
+	try {
+		const { text, scenery_rating, food_rating, pricing_rating } = req.body;
+		const reviewId = parseInt(req.params.reviewId);
+		const review = await prisma.Review.findUnique({
+			where: {
+				id: reviewId,
+			},
+		});
+		if (req.user.id !== parseInt(review.userId)) {
+			return res.status(403).json({ error: 'Unauthorized' });
+		}
+		await prisma.Review.update({
+			where: {
+				id: reviewId,
+			},
+			data: {
+				text: text,
+				scenery_rating: scenery_rating,
+				food_rating: food_rating,
+				pricing_rating: pricing_rating,
+			},
+		});
+		return res.json({ message: 'Review updated' });
+	} catch (error) {
+		next(error);
+	}
+});
+
+// Update Comment
+
+router.put(
+	'/reviews/:reviewId/comments/:commentId',
+	authenticateToken,
+	async (req, res, next) => {
+		try {
+			const { text } = req.body;
+			const reviewId = parseInt(req.params.reviewId);
+			const commentId = parseInt(req.params.commentId);
+			const review = await prisma.Review.findUnique({
+				where: {
+					id: reviewId,
+				},
+			});
+			const comment = await prisma.Comment.findUnique({
+				where: {
+					id: commentId,
+				},
+			});
+			if (
+				req.user.id !== parseInt(comment.userId) ||
+				reviewId !== comment.reviewId
+			) {
+				return res.status(403).json({ error: 'Unauthorized' });
+			}
+			await prisma.Comment.update({
+				where: {
+					id: commentId,
+				},
+				data: {
+					text: text,
+				},
+			});
+			return res.json({ message: 'Comment updated' });
+		} catch (error) {
+			next(error);
+		}
+	}
+);
 
 module.exports = router;

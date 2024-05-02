@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
 import { useLoginMutation } from '../auth/authSlice';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -20,8 +21,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
-  const [login, { isLoading }] = useLoginMutation(); 
-
+  const [login, { isLoading }] = useLoginMutation();
+  const nav = useNavigate(); // Initialize useHistory
+  
   const defaultTheme = createTheme();
 
   const handleEmailChange = (e) => {
@@ -32,38 +34,27 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://fullstackacademy.com/" target="_blank">
-        2311-FSA-ET-WEB-PT-SF
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-
-  try {
-    const response = await login({ email, password });
-    console.log('Response:', response);
-    if (response.error) {
-      throw new Error(response.error.message || 'Login failed');
+    try {
+      const response = await login({ email, password });
+      console.log('Response:', response);
+      if (response.error) {
+        throw new Error(response.error.message || 'Login failed');
+      }
+      setMessage(response.message); 
+      setError(null); 
+      setEmail(''); 
+      setPassword('');
+      
+      // Redirect to home page upon successful login
+      nav('/');
+    } catch (error) {
+      setError(error.message || 'Login failed');
+      setMessage('');
     }
-    setMessage(response.message); 
-    setError(null); 
-    setEmail(''); 
-    setPassword('');
-  } catch (error) {
-    setError(error.message || 'Login failed');
-    setMessage('');
-  }
-};
+  };
 
   return (
     <div><ThemeProvider theme={defaultTheme}>
@@ -84,7 +75,7 @@ const handleSubmit = async (e) => {
             Sign In
           </Typography>
           {error && <p style={{ color: 'red' }}>{error}</p>}
-      {message && <p style={{ color: 'green' }}>{message}</p>}
+          {message && <p style={{ color: 'green' }}>{message}</p>}
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -96,8 +87,8 @@ const handleSubmit = async (e) => {
                   name="email"
                   autoComplete="email"
                   type='email'
-            value={email}
-            onChange={handleEmailChange}
+                  value={email}
+                  onChange={handleEmailChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -109,8 +100,8 @@ const handleSubmit = async (e) => {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-            value={password}
-            onChange={handlePasswordChange}
+                  value={password}
+                  onChange={handlePasswordChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -131,14 +122,13 @@ const handleSubmit = async (e) => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
       
@@ -147,4 +137,3 @@ const handleSubmit = async (e) => {
 };
 
 export default Login;
-
