@@ -46,7 +46,6 @@ fetch('/api/stadiums')
     const searchTerm = e.target.value;
     setSearchInput(searchTerm)
 
-    // filter the items using the apiUsers state
   const filteredItems = stadiums.filter((stadium) => {
     if (searchTerm != "")
     return stadium.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -166,7 +165,7 @@ return (
             >
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                 <img src={stadium.image} width={320} height={150}/>
+                 <img src={stadiumImg} width={320} height={150}/>
                  <img src={fiveStars} width={200} height={30}/>
                 </Typography>
               </CardContent>
