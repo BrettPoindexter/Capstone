@@ -16,6 +16,7 @@ import Stadiums from './Stadiums';
 import FAQ from './FAQ';
 import Footer from './Footer';
 import getLPTheme from './getLPTheme';
+import TextField from '@mui/material/TextField';
 
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
   return (
@@ -63,8 +64,6 @@ ToggleCustomTheme.propTypes = {
 
 function Home() {
 
-
-
   const [mode, setMode] = React.useState('light');
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
   const LPtheme = createTheme(getLPTheme(mode));
@@ -77,6 +76,7 @@ function Home() {
   const toggleCustomTheme = () => {
     setShowCustomTheme((prev) => !prev);
   };
+
 
   return (
     <div>
