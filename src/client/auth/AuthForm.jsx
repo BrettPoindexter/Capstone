@@ -13,11 +13,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * AuthForm allows a user to either login or register for an account
  */
 function AuthForm() {
+  const nav = useNavigate();
     const [login] = useLoginMutation();
     const [register] = useRegisterMutation();
     const [ghLogin] = useGhLoginMutation();
@@ -48,6 +50,10 @@ async function attemptAuth(e) {
     try {
         setLoading(true);
         await authMethod(credentials).unwrap();
+        setEmail('');
+        setName('');
+        setPassword('');
+        nav('/');
     } catch (err) {
         setLoading(false);
         setError(err.data);
