@@ -43,9 +43,11 @@ export default function Stadiums() {
 		setSearchInput(searchTerm);
 
 		const filteredItems = stadiums.filter((stadium) => {
-			if (searchTerm != '')
-				return stadium.name.toLowerCase().includes(searchTerm.toLowerCase());
-		});
+    if (searchTerm != "")
+    return stadium.name.toLowerCase().includes(searchTerm.toLowerCase())
+      || stadium.team.toLowerCase().includes(searchTerm.toLowerCase())
+      || stadium.location.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 		setFilteredResults(filteredItems);
 	};
 
