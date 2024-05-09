@@ -18,6 +18,7 @@ model User {
   name     String    @db.VarChar(50)
   email    String    @unique
   password String
+  admin    Boolean   @default(false)
   comments Comment[]
   reviews  Review[]
 }
