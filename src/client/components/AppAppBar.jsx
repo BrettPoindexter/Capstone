@@ -83,11 +83,13 @@ function AppAppBar({ mode, toggleColorMode }) {
                 px: 0,
               }}
             >
+              <a href='/'>
               <img
                 src={logo}
                 style={logoStyle}
                 alt="Team Logo"
               />
+              </a>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem
                   onClick={() => scrollToSection('features')}
