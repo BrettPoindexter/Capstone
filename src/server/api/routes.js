@@ -227,7 +227,7 @@ router.delete(
 					user: true,
 				},
 			});
-			if (review.user.id !== userId) {
+			if (review.user.id !== userId || req.user.admin === false) {
 				return res.status(403).json({ error: 'Unauthorized' });
 			}
 			const deletedReview = await prisma.Review.delete({
@@ -256,7 +256,7 @@ router.delete(
 					id: commentId,
 				},
 			});
-			if (comment.user.id !== userId) {
+			if (comment.user.id !== userId || req.user.admin === false) {
 				return res.status(403).json({ error: 'Unauthorized' });
 			}
 			const deletedComment = await prisma.Comment.delete({
@@ -275,7 +275,7 @@ router.delete(
 
 router.delete('/user/:id', authenticateToken, async (req, res, next) => {
 	try {
-		if (req.user.id !== parseInt(req.params.id)) {
+		if (req.user.id !== parseInt(req.params.id) || req.user.admin === false) {
 			return res.status(403).json({ error: 'Unauthorized' });
 		}
 		await prisma.User.delete({
@@ -300,7 +300,7 @@ router.put('/reviews/:reviewId', authenticateToken, async (req, res, next) => {
 				id: reviewId,
 			},
 		});
-		if (req.user.id !== parseInt(review.userId)) {
+		if (req.user.id !== parseInt(review.userId) || req.user.admin === false) {
 			return res.status(403).json({ error: 'Unauthorized' });
 		}
 		await prisma.Review.update({
@@ -342,7 +342,8 @@ router.put(
 			});
 			if (
 				req.user.id !== parseInt(comment.userId) ||
-				reviewId !== comment.reviewId
+				reviewId !== comment.reviewId ||
+				req.user.admin === false
 			) {
 				return res.status(403).json({ error: 'Unauthorized' });
 			}
@@ -355,6 +356,34 @@ router.put(
 				},
 			});
 			return res.json({ message: 'Comment updated' });
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+
+// Admin endpoint get users
+
+router.put(
+	'/users/:userId/admin',
+	authenticateToken,
+	async (req, res, next) => {
+		try {
+			if (!req.user.admin) {
+				return res.status(403).json({ error: 'Not Authorized' });
+			}
+
+			const userId = parseInt(req.params.userId);
+			await prisma.User.update({
+				where: {
+					id: userId,
+				},
+				data: {
+					admin: true,
+				},
+			});
+
+			res.json({ message: 'Admin privileges granted!' });
 		} catch (error) {
 			next(error);
 		}
