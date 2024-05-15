@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { alpha } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
@@ -13,10 +11,35 @@ export default function Hero() {
       id="hero"
       sx={(theme) => ({
         width: '100%',
-        backgroundImage:
-          theme.palette.mode === 'light'
-            ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
-            : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: 'url(/baseball-wallpaper.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          zIndex: -2,
+          transform: 'translateZ(0)',
+          transition: 'background-image 0.3s ease-in-out',
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor:
+            theme.palette.mode === 'light'
+              ? alpha('#FFF', 0.15)
+              : alpha('#000', 0.15),
+          zIndex: -1,
+        },
         backgroundSize: '100% 20%',
         backgroundRepeat: 'no-repeat',
       })}
@@ -39,9 +62,11 @@ export default function Hero() {
               alignSelf: 'center',
               textAlign: 'center',
               fontSize: 'clamp(3.5rem, 10vw, 4rem)',
+              color: 'white',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
             }}
           >
-            Most Popular&nbsp;
+            Home Run Reviews&nbsp;
             <Typography
               component="span"
               variant="h1"
@@ -51,19 +76,21 @@ export default function Hero() {
                   theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
               }}
             >
-              Stadiums
+              {/* Inner text if needed */}
             </Typography>
           </Typography>
           <Typography
             textAlign="center"
-            color="text.secondary"
-            sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' } }}
+            color="black"
+            backgroundColor="white"
+            
+            sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' },  borderRadius: 5, textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)' }}
           >
-            What do you think about these stadiums?<br/>
+            How was your experience at these stadiums?<br/>
             Feel free to leave your thoughts.<br/>
             Be sure to sign in to let us know what you think.
           </Typography>
-        </Stack>        
+        </Stack>
       </Container>
     </Box>
   );

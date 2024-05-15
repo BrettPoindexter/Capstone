@@ -64,6 +64,8 @@ export default function Stadiums() {
 						flexDirection: 'column',
 						alignItems: 'center',
 						gap: { xs: 3, sm: 6 },
+						boxShadow: '6'
+						
 					}}
 				>
 					<TextField
@@ -92,7 +94,9 @@ export default function Stadiums() {
 											justifyContent: 'space-between',
 											flexGrow: 1,
 											p: 1,
+											
 										}}
+										
 									>
 										<CardContent>
 											<Typography variant='body2' color='text.secondary'>
@@ -140,6 +144,7 @@ export default function Stadiums() {
 						flexDirection: 'column',
 						alignItems: 'center',
 						gap: { xs: 3, sm: 6 },
+						
 					}}
 				>
 					<TextField
@@ -183,6 +188,8 @@ export default function Stadiums() {
 												flexDirection: 'row',
 												justifyContent: 'space-between',
 												pr: 2,
+												borderRadius: 5,
+						boxShadow: 3
 											}}
 										>
 											<CardHeader
