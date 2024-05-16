@@ -64,6 +64,7 @@ export default function Hero() {
               fontSize: 'clamp(3.5rem, 10vw, 4rem)',
               color: 'white',
               textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+              fontFamily: 'Roboto, sans-serif', // Font family added
             }}
           >
             Home Run Reviews&nbsp;
@@ -74,6 +75,7 @@ export default function Hero() {
                 fontSize: 'clamp(3rem, 10vw, 4rem)',
                 color: (theme) =>
                   theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
+                fontFamily: 'Roboto, sans-serif', // Font family added
               }}
             >
               {/* Inner text if needed */}
@@ -83,8 +85,13 @@ export default function Hero() {
             textAlign="center"
             color="black"
             backgroundColor="white"
-            
-            sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' },  borderRadius: 5, textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)' }}
+            sx={{
+              alignSelf: 'center',
+              width: { sm: '100%', md: '80%' },
+              borderRadius: 5,
+              textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)',
+              fontFamily: 'Roboto, sans-serif', // Font family added
+            }}
           >
             How was your experience at these stadiums?<br/>
             Feel free to leave your thoughts.<br/>
@@ -95,3 +102,5 @@ export default function Hero() {
     </Box>
   );
 }
+
+

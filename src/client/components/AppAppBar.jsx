@@ -84,9 +84,9 @@ function AppAppBar({ mode, toggleColorMode }) {
               }}
             >
               <a href='/'>
-              <h2>
-                Home
-              </h2>
+                <Typography variant="h6" component="h1" color="textPrimary" sx={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold', textDecoration: 'none' }}>
+                  Home
+                </Typography>
               </a>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 
@@ -94,7 +94,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                   onClick={() => scrollToSection('faq')}
                   sx={{ py: '6px', px: '12px' }}
                 >
-                  <Typography variant="body2" color="text.primary">
+                  <Typography variant="body2" color="text.primary" sx={{ fontFamily: 'Montserrat, sans-serif' }}>
                     FAQ
                   </Typography>
                 </MenuItem>
@@ -114,6 +114,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 size="small"
                 component="a"
                 href="/login"
+                sx={{ fontFamily: 'Montserrat, sans-serif' }}
               >
                 Sign in
               </Button>
@@ -123,6 +124,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 size="small"
                 component="a"
                 href="/register"
+                sx={{ fontFamily: 'Montserrat, sans-serif' }}
               >
                 Sign up
               </Button>
@@ -157,7 +159,11 @@ function AppAppBar({ mode, toggleColorMode }) {
                     <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                   </Box>
                 
-                  <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+                  <MenuItem onClick={() => scrollToSection('faq')}>
+                    <Typography variant="body1" sx={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      FAQ
+                    </Typography>
+                  </MenuItem>
                   <Divider />
                   <MenuItem>
                     <Button
@@ -166,7 +172,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                       component="a"
                       href="/material-ui/getting-started/templates/sign-up/"
                       target="_blank"
-                      sx={{ width: '100%' }}
+                      sx={{ width: '100%', fontFamily: 'Montserrat, sans-serif' }}
                     >
                       Sign up
                     </Button>
@@ -178,7 +184,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                       component="a"
                       href="/material-ui/getting-started/templates/sign-in/"
                       target="_blank"
-                      sx={{ width: '100%' }}
+                      sx={{ width: '100%', fontFamily: 'Montserrat, sans-serif' }}
                     >
                       Sign in
                     </Button>
