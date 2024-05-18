@@ -193,7 +193,7 @@ export default function SingleStadium() {
 												else show Login to post reviews link{' '} */}
 											</h4>
 											<InputTags />
-											{/* <input
+											<input
 												type='text'
 												value={newReview}
 												onChange={(e) => setReview(e.target.value)}
@@ -202,8 +202,8 @@ export default function SingleStadium() {
                       <input type="number" value={newFoodRating} onChange={(e) => setNewFoodRating(e.target.value)} id='food'/>
                       <input type="number" value={newPricingRating} onChange={(e) => setNewPricingRating(e.target.value)} id='pricing'/>
                       <input type="number" value={newSceneryRating} onChange={(e) => setNewSceneryRating(e.target.value)} id='scenery'/>
-											<Button onClick={handleSubmit}>Submit</Button> */}
-											<CommentsBox handleSubmit={handleSubmit}/>
+											<Button onClick={handleSubmit}>Submit</Button>
+											{/* <CommentsBox handleSubmit={handleSubmit}/> */}
 											<HoverRating />
 											<CommentsButton/>
 										</Grid>

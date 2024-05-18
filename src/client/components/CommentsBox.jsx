@@ -25,30 +25,6 @@ export default function MultilineTextFields() {
 					fullWidth
 					required
 				/>
-				<TextField
-					type='text'
-					value={newReview}
-					onChange={(e) => setReview(e.target.value)}
-					placeholder='Enter review here'
-				/>
-				<TextField
-					type='number'
-					value={newFoodRating}
-					onChange={(e) => setNewFoodRating(e.target.value)}
-					id='food'
-				/>
-				<TextField
-					type='number'
-					value={newPricingRating}
-					onChange={(e) => setNewPricingRating(e.target.value)}
-					id='pricing'
-				/>
-				<TextField
-					type='number'
-					value={newSceneryRating}
-					onChange={(e) => setNewSceneryRating(e.target.value)}
-					id='scenery'
-				/>
 			</div>
 		</Box>
 	);
