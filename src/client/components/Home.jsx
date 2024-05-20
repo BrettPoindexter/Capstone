@@ -1,5 +1,3 @@
-// Home.jsx
-
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -85,7 +83,26 @@ function Home() {
       <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
       <Hero />
       <Divider />
-      <Box sx={{ bgcolor: 'background.default' }}>
+      <Box sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: 'radial-gradient(circle, #FFA500, #0074D9)',
+          opacity: 0.5,
+          zIndex: -1,
+          animation: 'backgroundAnimation 20s infinite alternate',
+        },
+        '@keyframes backgroundAnimation': {
+          '0%': { transform: 'scale(1)', opacity: 0.5 },
+          '100%': { transform: 'scale(1.2)', opacity: 1 },
+        },
+      }}>
         <Stadiums />
         <Divider />
         <FAQ />
@@ -98,3 +115,4 @@ function Home() {
 }
 
 export default Home;
+
