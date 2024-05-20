@@ -14,5 +14,8 @@
 #comp-img{
   width: 250px;
 }
+.card {
+background-color: blue;
+}
 
 /* Add more styling for other elements if needed */

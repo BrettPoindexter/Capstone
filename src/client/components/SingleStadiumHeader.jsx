@@ -33,7 +33,7 @@ export default function SingleStadiumHeader({ stadium }) {
 
   return (
     <div>
-        <Container
+      <Container
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -43,47 +43,48 @@ export default function SingleStadiumHeader({ stadium }) {
         }}
       >
         <Stack spacing={2} useFlexGap sx={{ width: { xs: '100%', sm: '70%' } }}>
-      <Typography align="center" variant= 'h4' sx={{margin: "auto"}} color="blue" fontWeight="bold">  
-        {stadium.name}
-      </Typography>
+          <Typography align="center" variant='h4' sx={{ margin: "auto", fontFamily: 'Montserrat, sans-serif' }} color="blue" fontWeight="bold">
+            {stadium.name}
+          </Typography>
 
-      <Grid container justifyContent="center">
-        <GroupsIcon fontSize="medium" color="disabled" sx={{marginRight: "5px"}}/>
-        <Typography align="center" color="maroon" fontWeight="bold" sx={{marginRight: "15px"}}> 
-          Team: {stadium.team}
-        </Typography>
-        <LocationOnIcon fontSize="medium" color="disabled" sx={{marginRight: "5px"}}/>
-        <Typography align="center" color="purple" fontWeight="bold">
-          Location: {stadium.location}
-        </Typography>
-      </Grid>
-      
-      <Grid container justifyContent="center" sx={{marginBottom: "10px"}}> 
-        <IconButton sx={{ "&:hover": { color: 'indigo' } }}  target="_blank" href={'https://www.facebook.com/sharer.php?u='+stadium.link}>
-          <FacebookIcon fontSize="small" />
-        </IconButton>
-        <IconButton sx={{ "&:hover": { color: 'lightBlue' } }}  target="_blank" href={'https://twitter.com/share?url='+stadium.link+'&text='+stadium.title+'&via=[via]&hashtags=[hashtags]'}>
-          <TwitterIcon fontSize="small" />
-        </IconButton>
-        <IconButton sx={{ "&:hover": { color: 'blue' } }}  target="_blank" href={'https://www.linkedin.com/shareArticle?url='+stadium.link+'&title='+stadium.title}>
-          <LinkedInIcon fontSize="small" />
-        </IconButton>
-        <IconButton sx={{ "&:hover": { color: 'red' } }} target="_blank" href={'https://reddit.com/submit?url='+stadium.link+'&title='+stadium.title}>
-          <RedditIcon fontSize="small" />
-        </IconButton>
-        <IconButton sx={{ "&:hover": { color: 'black' } }}  onClick={handleClick}>
-          <ShareIcon fontSize="small" />
-        </IconButton>
-        <IconButton sx={{ "&:hover": { color: 'teal' } }}  onClick={() => window.print()}>
-          <PrintIcon fontSize="small" />
-        </IconButton>
-      </Grid>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
-          The link to this blog has been saved to your clipboard.
-        </Alert>
-      </Snackbar>
-      </Stack>
+          <Grid container justifyContent="center">
+            <GroupsIcon fontSize="medium" color="disabled" sx={{ marginRight: "5px" }} />
+            <Typography align="center" color="maroon" fontWeight="bold" sx={{ marginRight: "15px", fontFamily: 'Roboto, sans-serif' }}>
+              Team: {stadium.team}
+            </Typography>
+            <LocationOnIcon fontSize="medium" color="disabled" sx={{ marginRight: "5px" }} />
+            <Typography align="center" color="purple" fontWeight="bold" fontFamily="Roboto, sans-serif">
+              Location: {stadium.location}
+            </Typography>
+          </Grid>
+
+          <Grid container justifyContent="center" sx={{ marginBottom: "10px" }}>
+            <IconButton sx={{ "&:hover": { color: 'indigo' } }} target="_blank" href={'https://www.facebook.com/sharer.php?u=' + stadium.link}>
+              <FacebookIcon fontSize="small" />
+            </IconButton>
+            <IconButton sx={{ "&:hover": { color: 'lightBlue' } }} target="_blank" href={'https://twitter.com/share?url=' + stadium.link + '&text=' + stadium.title + '&via=[via]&hashtags=[hashtags]'}>
+              <TwitterIcon fontSize="small" />
+            </IconButton>
+            <IconButton sx={{ "&:hover": { color: 'blue' } }} target="_blank" href={'https://www.linkedin.com/shareArticle?url=' + stadium.link + '&title=' + stadium.title}>
+              <LinkedInIcon fontSize="small" />
+            </IconButton>
+            <IconButton sx={{ "&:hover": { color: 'red' } }} target="_blank" href={'https://reddit.com/submit?url=' + stadium.link + '&title=' + stadium.title}>
+              <RedditIcon fontSize="small" />
+            </IconButton>
+            <IconButton sx={{ "&:hover": { color: 'black' } }} onClick={handleClick}>
+              <ShareIcon fontSize="small" />
+            </IconButton>
+            <IconButton sx={{ "&:hover": { color: 'teal' } }} onClick={() => window.print()}>
+              <PrintIcon fontSize="small" />
+            </IconButton>
+          </Grid>
+
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="info" sx={{ width: '100%', fontFamily: 'Roboto, sans-serif' }}>
+              The link to this blog has been saved to your clipboard.
+            </Alert>
+          </Snackbar>
+        </Stack>
       </Container>
     </div>
   );
