@@ -29,9 +29,9 @@ export default function SingleStadium() {
 	const [singleStadium, setStadium] = useState();
 	const { id } = useParams();
 	const [newReview, setReview] = useState('');
-  const [newFoodRating, setNewFoodRating] = useState('')
-  const [newSceneryRating, setNewSceneryRating] = useState('')
-  const [newPricingRating, setNewPricingRating] = useState('')
+	const [newFoodRating, setNewFoodRating] = useState('');
+	const [newSceneryRating, setNewSceneryRating] = useState('');
+	const [newPricingRating, setNewPricingRating] = useState('');
 
 	useEffect(() => {
 		async function getSingleStadium(stadiumId) {
@@ -57,7 +57,12 @@ export default function SingleStadium() {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
-				body: JSON.stringify({ text: newReview, scenery_rating: parseInt(newSceneryRating), food_rating: parseInt(newFoodRating), pricing_rating: parseInt(newPricingRating) }),
+				body: JSON.stringify({
+					text: newReview,
+					scenery_rating: parseInt(newSceneryRating),
+					food_rating: parseInt(newFoodRating),
+					pricing_rating: parseInt(newPricingRating),
+				}),
 			});
 			const result = await response.json();
 			console.log('Response:', result);
@@ -199,13 +204,28 @@ export default function SingleStadium() {
 												onChange={(e) => setReview(e.target.value)}
 												placeholder='Enter review here'
 											/>
-                      <input type="number" value={newFoodRating} onChange={(e) => setNewFoodRating(e.target.value)} id='food'/>
-                      <input type="number" value={newPricingRating} onChange={(e) => setNewPricingRating(e.target.value)} id='pricing'/>
-                      <input type="number" value={newSceneryRating} onChange={(e) => setNewSceneryRating(e.target.value)} id='scenery'/>
+											<input
+												type='number'
+												value={newFoodRating}
+												onChange={(e) => setNewFoodRating(e.target.value)}
+												id='food'
+											/>
+											<input
+												type='number'
+												value={newPricingRating}
+												onChange={(e) => setNewPricingRating(e.target.value)}
+												id='pricing'
+											/>
+											<input
+												type='number'
+												value={newSceneryRating}
+												onChange={(e) => setNewSceneryRating(e.target.value)}
+												id='scenery'
+											/>
 											<Button onClick={handleSubmit}>Submit</Button>
 											{/* <CommentsBox handleSubmit={handleSubmit}/> */}
 											<HoverRating />
-											<CommentsButton/>
+											<CommentsButton />
 										</Grid>
 									</Grid>
 								</Paper>
