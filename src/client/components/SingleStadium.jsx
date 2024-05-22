@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import FAQ from './FAQ';
 import Footer from './Footer';
 import getLPTheme, { green } from './getLPTheme';
-import { Paper, Avatar, Grid, Button } from '@mui/material';
+import { Paper, Avatar, Grid, Button, TextField } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
@@ -198,34 +198,68 @@ export default function SingleStadium() {
 												else show Login to post reviews link{' '} */}
 											</h4>
 											<InputTags />
-											<input
-												type='text'
-												value={newReview}
-												onChange={(e) => setReview(e.target.value)}
-												placeholder='Enter review here'
-											/>
-											<input
+											<Grid container direction={"row"} spacing={5}>
+  											<Grid item>
+											<TextField
+											variant='standard'
+          									size='small'
+          									sx={{ margin: "1rem 0" }}
 												type='number'
 												value={newFoodRating}
 												onChange={(e) => setNewFoodRating(e.target.value)}
 												id='food'
+												placeholder='Food Rating (1 - 5)'
 											/>
-											<input
+											</Grid>
+											<Grid item>
+											<TextField
+											variant='standard'
+          									size='small'
+          									sx={{ margin: "1rem 0" }}
+          									margin='none'
 												type='number'
 												value={newPricingRating}
 												onChange={(e) => setNewPricingRating(e.target.value)}
 												id='pricing'
+												placeholder='Price Rating (1 - 5)'
 											/>
-											<input
+											</Grid>
+											<Grid item>
+											<TextField
+											variant='standard'
+          									size='small'
+          									sx={{ margin: "1rem 0" }}
+          									margin='none'
 												type='number'
 												value={newSceneryRating}
 												onChange={(e) => setNewSceneryRating(e.target.value)}
 												id='scenery'
+												placeholder='Scenery Rating (1 - 5)'
 											/>
-											<Button onClick={handleSubmit}>Submit</Button>
-											{/* <CommentsBox handleSubmit={handleSubmit}/> */}
+											</Grid>
+											</Grid>
+											<TextField
+											fullWidth
+												type='text'
+												variant='standard'
+          									size='small'
+          									sx={{ margin: "1rem 0" }}
+          									margin='none'
+												value={newReview}
+												onChange={(e) => setReview(e.target.value)}
+												placeholder='Any comments?'
+											/>
+											<Grid container direction={"column"} spacing={1}>
+												<Grid item color={"blue"} fontWeight={"bold"}>
+													Overall Rating
+												</Grid>
+											<Grid item>								
 											<HoverRating />
-											<CommentsButton />
+											</Grid>
+											<Grid item>
+											<CommentsButton handleSubmit={handleSubmit} />
+											</Grid>
+											</Grid>	
 										</Grid>
 									</Grid>
 								</Paper>
