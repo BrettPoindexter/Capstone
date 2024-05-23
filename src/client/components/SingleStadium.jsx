@@ -47,8 +47,8 @@ export default function SingleStadium() {
 			}
 		}
 		getSingleStadium(id);
-		// console.log(singleStadium);
-	}, [id]);
+		console.log(singleStadium);
+	}, singleStadium);
 
 	async function handleCommentSubmit(e, reviewId) {
 		e.preventDefault();
@@ -84,6 +84,7 @@ export default function SingleStadium() {
 		e.preventDefault();
 		try {
 			const token = localStorage.getItem('token');
+			console.log(token);
 			if (!token) {
 				throw new Error('Not Authenticated');
 			}
@@ -109,6 +110,8 @@ export default function SingleStadium() {
 			setNewPricingRating('');
 		} catch (error) {
 			console.error(error);
+			localStorage.removeItem('token');
+			// window.location.href = '/login';
 		}
 	}
 
@@ -213,7 +216,7 @@ export default function SingleStadium() {
 																placeholder='Any comments?'
 															/>
 															<CommentsButton
-																handleSubmit={handleCommentSubmit}
+																// handleSubmit={handleCommentSubmit}
 															/>
 															<Rating
 																value={review.scenery_rating}

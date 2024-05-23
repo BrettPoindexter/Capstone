@@ -192,7 +192,6 @@ router.post('/stadiums/:id', authenticateToken, async (req, res, next) => {
 				pricing_rating: req.body.pricing_rating,
 				stadiumId: stadiumId,
 				userId: req.user.id,
-				name: user.name,
 			},
 		});
 		res.json(review);
@@ -222,7 +221,6 @@ router.post(
 					text: req.body.text,
 					reviewId: reviewId,
 					userId: req.user.id,
-					name: user.name,
 				},
 			});
 			res.json(review);
