@@ -12,11 +12,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
+import { MarginRounded } from '@mui/icons-material';
 
 const logoStyle = {
 	width: '140px',
 	height: 'auto',
 	cursor: 'pointer',
+    marginLeft: "2em"
 };
 
 function AppAppBar({ mode, toggleColorMode }) {
