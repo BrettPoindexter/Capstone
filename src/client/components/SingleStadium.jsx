@@ -50,35 +50,35 @@ export default function SingleStadium() {
 		console.log(singleStadium);
 	}, singleStadium);
 
-	async function handleCommentSubmit(e, reviewId) {
-		e.preventDefault();
-		try {
-			const token = localStorage.getItem('token');
-			if (!token) {
-				throw new Error('Not Authenticated');
-			}
+	// async function handleCommentSubmit(e, reviewId) {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const token = localStorage.getItem('token');
+	// 		if (!token) {
+	// 			throw new Error('Not Authenticated');
+	// 		}
 
-			const response = await fetch(
-				`http://localhost:3000/api/reviews/${reviewId}/comments`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${token}`,
-					},
-					body: JSON.stringify({
-						text: newComment,
-					}),
-				}
-			);
-			const result = await response.json();
-			console.log('Response:', result);
-			setStadium(result.stadium);
-			setComment('');
-		} catch (error) {
-			console.error(error);
-		}
-	}
+	// 		const response = await fetch(
+	// 			`http://localhost:3000/api/reviews/${reviewId}/comments`,
+	// 			{
+	// 				method: 'POST',
+	// 				headers: {
+	// 					'Content-Type': 'application/json',
+	// 					Authorization: `Bearer ${token}`,
+	// 				},
+	// 				body: JSON.stringify({
+	// 					text: newComment,
+	// 				}),
+	// 			}
+	// 		);
+	// 		const result = await response.json();
+	// 		console.log('Response:', result);
+	// 		setStadium(result.stadium);
+	// 		setComment('');
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// }
 
 	async function handleReviewSubmit(e) {
 		e.preventDefault();
@@ -204,7 +204,7 @@ export default function SingleStadium() {
 														</h4>
 														<p style={{ textAlign: 'left' }}>{review.text}</p>
 														<p style={{ textAlign: 'left', color: 'gray' }}>
-															<TextField
+															{/* <TextField
 																fullWidth
 																type='text'
 																variant='standard'
@@ -216,8 +216,8 @@ export default function SingleStadium() {
 																placeholder='Any comments?'
 															/>
 															<CommentsButton
-																// handleSubmit={handleCommentSubmit}
-															/>
+															// handleSubmit={handleCommentSubmit}
+															/> */}
 															<Rating
 																value={review.scenery_rating}
 																name='rating'
