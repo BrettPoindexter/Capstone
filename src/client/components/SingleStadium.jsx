@@ -22,15 +22,17 @@ import Stack from '@mui/material/Stack';
 import HoverRating from './HoverRating';
 import InputTags from './InputTags';
 import CommentsButton from './CommentsButton';
+import { Typography } from '@mui/material';
 
 export default function SingleStadium() {
 	const [singleStadium, setStadium] = useState();
+	const [loading, setLoading] = useState(true);
 	const { id } = useParams();
 	const [newReview, setReview] = useState('');
 	const [newFoodRating, setNewFoodRating] = useState('');
 	const [newSceneryRating, setNewSceneryRating] = useState('');
 	const [newPricingRating, setNewPricingRating] = useState('');
-	const [comment, setComment] = useState('');
+	const [newComment, setComment] = useState('');
 
 	useEffect(() => {
 		async function getSingleStadium(stadiumId) {
@@ -45,10 +47,40 @@ export default function SingleStadium() {
 			}
 		}
 		getSingleStadium(id);
-		console.log(singleStadium);
-	}, [singleStadium]);
+		// console.log(singleStadium);
+	}, [id]);
 
-	async function handleSubmit(e) {
+	async function handleCommentSubmit(e, reviewId) {
+		e.preventDefault();
+		try {
+			const token = localStorage.getItem('token');
+			if (!token) {
+				throw new Error('Not Authenticated');
+			}
+
+			const response = await fetch(
+				`http://localhost:3000/api/reviews/${reviewId}/comments`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({
+						text: newComment,
+					}),
+				}
+			);
+			const result = await response.json();
+			console.log('Response:', result);
+			setStadium(result.stadium);
+			setComment('');
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	async function handleReviewSubmit(e) {
 		e.preventDefault();
 		try {
 			const token = localStorage.getItem('token');
@@ -165,7 +197,7 @@ export default function SingleStadium() {
 													</Grid>
 													<Grid justifyContent='left' item xs zeroMinWidth>
 														<h4 style={{ margin: 0, textAlign: 'left' }}>
-															User ID: {review.userId}
+															{review.user.name}
 														</h4>
 														<p style={{ textAlign: 'left' }}>{review.text}</p>
 														<p style={{ textAlign: 'left', color: 'gray' }}>
@@ -176,9 +208,12 @@ export default function SingleStadium() {
 																size='small'
 																sx={{ margin: '1rem 0' }}
 																margin='none'
-																value={newReview}
-																onChange={(e) => setReview(e.target.value)}
+																value={newComment}
+																onChange={(e) => setComment(e.target.value)}
 																placeholder='Any comments?'
+															/>
+															<CommentsButton
+																handleSubmit={handleCommentSubmit}
 															/>
 															<Rating
 																value={review.scenery_rating}
@@ -191,6 +226,17 @@ export default function SingleStadium() {
 															<Chip label='#Good Food' />
 															<Chip label='#Clean' />
 														</Stack>
+														{/* {review.comments.map((comment, commentIndex) => (
+															<div
+																key={commentIndex}
+																style={{ marginTop: '1rem' }}
+															>
+																<Typography variant='subtitle2'>
+																	{comment.user.name}
+																</Typography>
+																<Typography>{comment.text}</Typography>
+															</div>
+														))} */}
 													</Grid>
 												</Grid>
 											</Paper>
@@ -279,7 +325,7 @@ export default function SingleStadium() {
 													<HoverRating />
 												</Grid>
 												<Grid item>
-													<CommentsButton handleSubmit={handleSubmit} />
+													<CommentsButton handleSubmit={handleReviewSubmit} />
 												</Grid>
 											</Grid>
 										</Grid>
