@@ -16,6 +16,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +40,7 @@ const Login = () => {
 
     try {
       const response = await login({ email, password });
-      console.log('Response:', response);
+      //console.log('Response:', response);
       if (response.error) {
         throw new Error(response.error.message || 'Login failed');
       }
@@ -47,6 +48,7 @@ const Login = () => {
       setError(null); 
       setEmail(''); 
       setPassword('');
+      
       
       // Redirect to home page upon successful login
       nav('/');

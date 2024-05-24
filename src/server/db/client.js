@@ -7,3 +7,4 @@ const db = new Client({
 });
 
 module.exports = db;
+
