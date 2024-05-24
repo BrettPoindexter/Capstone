@@ -62,6 +62,31 @@ router.get('/stadiums/:id', async (req, res, next) => {
 	}
 });
 
+// Get comments on a specific review
+
+router.get('/reviews/:reviewId/comments', async (req, res, next) => {
+	try {
+		const reviewId = parseInt(req.params.reviewId);
+		const comments = await prisma.Comment.findMany({
+			where: {
+				reviewId: reviewId,
+			},
+			include: {
+				user: true,
+			},
+		});
+
+		if (!comments) {
+			return res.status(404).json({ Error: 'Comments not found' });
+		}
+
+		res.json({ comments });
+	} catch (error) {
+		next(error);
+	}
+});
+
+
 // Login endpoint
 
 router.post('/login', async (req, res, next) => {
