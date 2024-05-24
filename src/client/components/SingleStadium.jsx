@@ -14,24 +14,25 @@ import SingleStadiumHeader from './SingleStadiumHeader';
 import Container from '@mui/material/Container';
 import FAQ from './FAQ';
 import Footer from './Footer';
-import getLPTheme, { green } from './getLPTheme';
+import getLPTheme from './getLPTheme';
 import { Paper, Avatar, Grid, Button, TextField } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import HoverRating from './HoverRating';
 import InputTags from './InputTags';
-import CommentsBox from './CommentsBox';
 import CommentsButton from './CommentsButton';
-import { NextPlan } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 
 export default function SingleStadium() {
 	const [singleStadium, setStadium] = useState();
+	const [loading, setLoading] = useState(true);
 	const { id } = useParams();
 	const [newReview, setReview] = useState('');
 	const [newFoodRating, setNewFoodRating] = useState('');
 	const [newSceneryRating, setNewSceneryRating] = useState('');
 	const [newPricingRating, setNewPricingRating] = useState('');
+	const [newComment, setComment] = useState('');
 
 	useEffect(() => {
 		async function getSingleStadium(stadiumId) {
@@ -46,11 +47,45 @@ export default function SingleStadium() {
 			}
 		}
 		getSingleStadium(id);
-	}, [id]);
+	}, singleStadium);
 
-	async function handleSubmit() {
+	// async function handleCommentSubmit(e, reviewId) {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const token = localStorage.getItem('token');
+	// 		if (!token) {
+	// 			throw new Error('Not Authenticated');
+	// 		}
+
+	// 		const response = await fetch(
+	// 			`http://localhost:3000/api/reviews/${reviewId}/comments`,
+	// 			{
+	// 				method: 'POST',
+	// 				headers: {
+	// 					'Content-Type': 'application/json',
+	// 					Authorization: `Bearer ${token}`,
+	// 				},
+	// 				body: JSON.stringify({
+	// 					text: newComment,
+	// 				}),
+	// 			}
+	// 		);
+	// 		const result = await response.json();
+	// 		console.log('Response:', result);
+	// 		setStadium(result.stadium);
+	// 		setComment('');
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// }
+
+	async function handleReviewSubmit(e) {
+		e.preventDefault();
 		try {
 			const token = localStorage.getItem('token');
+			if (!token) {
+				throw new Error('Not Authenticated');
+			}
 			const response = await fetch(`http://localhost:3000/api/stadiums/${id}`, {
 				method: 'POST',
 				headers: {
@@ -68,8 +103,13 @@ export default function SingleStadium() {
 			console.log('Response:', result);
 			setStadium(result.stadium);
 			setReview('');
+			setNewFoodRating('');
+			setNewSceneryRating('');
+			setNewPricingRating('');
 		} catch (error) {
 			console.error(error);
+			localStorage.removeItem('token');
+			window.location.href = '/login';
 		}
 	}
 
@@ -158,10 +198,24 @@ export default function SingleStadium() {
 													</Grid>
 													<Grid justifyContent='left' item xs zeroMinWidth>
 														<h4 style={{ margin: 0, textAlign: 'left' }}>
-															User ID: {review.userId}
+															{review.user.name}
 														</h4>
 														<p style={{ textAlign: 'left' }}>{review.text}</p>
 														<p style={{ textAlign: 'left', color: 'gray' }}>
+															{/* <TextField
+																fullWidth
+																type='text'
+																variant='standard'
+																size='small'
+																sx={{ margin: '1rem 0' }}
+																margin='none'
+																value={newComment}
+																onChange={(e) => setComment(e.target.value)}
+																placeholder='Any comments?'
+															/>
+															<CommentsButton
+															// handleSubmit={handleCommentSubmit}
+															/> */}
 															<Rating
 																value={review.scenery_rating}
 																name='rating'
@@ -173,6 +227,17 @@ export default function SingleStadium() {
 															<Chip label='#Good Food' />
 															<Chip label='#Clean' />
 														</Stack>
+														{/* {review.comments.map((comment, commentIndex) => (
+															<div
+																key={commentIndex}
+																style={{ marginTop: '1rem' }}
+															>
+																<Typography variant='subtitle2'>
+																	{comment.user.name}
+																</Typography>
+																<Typography>{comment.text}</Typography>
+															</div>
+														))} */}
 													</Grid>
 												</Grid>
 											</Paper>
@@ -198,68 +263,72 @@ export default function SingleStadium() {
 												else show Login to post reviews link{' '} */}
 											</h4>
 											<InputTags />
-											<Grid container direction={"row"} spacing={5}>
-  											<Grid item>
-											<TextField
-											variant='standard'
-          									size='small'
-          									sx={{ margin: "1rem 0" }}
-												type='number'
-												value={newFoodRating}
-												onChange={(e) => setNewFoodRating(e.target.value)}
-												id='food'
-												placeholder='Food Rating (1 - 5)'
-											/>
+											<Grid container direction={'row'} spacing={5}>
+												<Grid item>
+													<TextField
+														variant='standard'
+														size='small'
+														sx={{ margin: '1rem 0' }}
+														type='number'
+														value={newFoodRating}
+														onChange={(e) => setNewFoodRating(e.target.value)}
+														id='food'
+														placeholder='Food Rating (1 - 5)'
+													/>
+												</Grid>
+												<Grid item>
+													<TextField
+														variant='standard'
+														size='small'
+														sx={{ margin: '1rem 0' }}
+														margin='none'
+														type='number'
+														value={newPricingRating}
+														onChange={(e) =>
+															setNewPricingRating(e.target.value)
+														}
+														id='pricing'
+														placeholder='Price Rating (1 - 5)'
+													/>
+												</Grid>
+												<Grid item>
+													<TextField
+														variant='standard'
+														size='small'
+														sx={{ margin: '1rem 0' }}
+														margin='none'
+														type='number'
+														value={newSceneryRating}
+														onChange={(e) =>
+															setNewSceneryRating(e.target.value)
+														}
+														id='scenery'
+														placeholder='Scenery Rating (1 - 5)'
+													/>
+												</Grid>
 											</Grid>
-											<Grid item>
 											<TextField
-											variant='standard'
-          									size='small'
-          									sx={{ margin: "1rem 0" }}
-          									margin='none'
-												type='number'
-												value={newPricingRating}
-												onChange={(e) => setNewPricingRating(e.target.value)}
-												id='pricing'
-												placeholder='Price Rating (1 - 5)'
-											/>
-											</Grid>
-											<Grid item>
-											<TextField
-											variant='standard'
-          									size='small'
-          									sx={{ margin: "1rem 0" }}
-          									margin='none'
-												type='number'
-												value={newSceneryRating}
-												onChange={(e) => setNewSceneryRating(e.target.value)}
-												id='scenery'
-												placeholder='Scenery Rating (1 - 5)'
-											/>
-											</Grid>
-											</Grid>
-											<TextField
-											fullWidth
+												fullWidth
 												type='text'
 												variant='standard'
-          									size='small'
-          									sx={{ margin: "1rem 0" }}
-          									margin='none'
+												size='small'
+												sx={{ margin: '1rem 0' }}
+												margin='none'
 												value={newReview}
 												onChange={(e) => setReview(e.target.value)}
 												placeholder='Any comments?'
 											/>
-											<Grid container direction={"column"} spacing={1}>
-												<Grid item color={"blue"} fontWeight={"bold"}>
+											<Grid container direction={'column'} spacing={1}>
+												<Grid item color={'blue'} fontWeight={'bold'}>
 													Overall Rating
 												</Grid>
-											<Grid item>								
-											<HoverRating />
+												<Grid item>
+													<HoverRating />
+												</Grid>
+												<Grid item>
+													<CommentsButton handleSubmit={handleReviewSubmit} />
+												</Grid>
 											</Grid>
-											<Grid item>
-											<CommentsButton handleSubmit={handleSubmit} />
-											</Grid>
-											</Grid>	
 										</Grid>
 									</Grid>
 								</Paper>

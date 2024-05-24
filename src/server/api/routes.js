@@ -41,7 +41,12 @@ router.get('/stadiums/:id', async (req, res, next) => {
 			include: {
 				reviews: {
 					include: {
-						comments: {},
+						user: true,
+						comments: {
+							include: {
+								user: true,
+							},
+						},
 					},
 				},
 			},
@@ -171,6 +176,14 @@ router.get('/user', authenticateToken, async (req, res, next) => {
 router.post('/stadiums/:id', authenticateToken, async (req, res, next) => {
 	try {
 		const stadiumId = parseInt(req.params.id);
+		const user = await prisma.User.findUnique({
+			where: {
+				id: req.user.id,
+			},
+		});
+		if (!user) {
+			return res.status(404).json({ error: 'User not found' });
+		}
 		const review = await prisma.Review.create({
 			data: {
 				text: req.body.text,
@@ -195,6 +208,14 @@ router.post(
 	async (req, res, next) => {
 		try {
 			const reviewId = parseInt(req.params.reviewId);
+			const user = await prisma.User.findUnique({
+				where: {
+					id: req.user.id,
+				},
+			});
+			if (!user) {
+				return res.status(404).json({ error: 'User not found' });
+			}
 			const review = await prisma.Comment.create({
 				data: {
 					text: req.body.text,
