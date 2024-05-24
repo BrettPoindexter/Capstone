@@ -44,16 +44,16 @@ function AppAppBar({ mode, toggleColorMode }) {
 	};
 
 	function Logout() {
-		let token = window.sessionStorage.getItem("token");
-  window.sessionStorage.setItem("token",null);
+  window.sessionStorage.removeItem("token");
 	}
 
 	function IsValidToken() {
-		let result;
+		let result = false;
 		let token = window.sessionStorage.getItem("token");
-  
-  if (token) {
-  let decodedToken = jwtDecode(token);
+
+	if (token)
+		{
+let decodedToken = jwtDecode(token);
   //console.log("Decoded Token", decodedToken);
   let currentDate = new Date();
 
@@ -66,8 +66,11 @@ function AppAppBar({ mode, toggleColorMode }) {
     console.log("Valid token");   
     return result;
   }
-  
-	}
+		}
+		else
+		{
+			return result
+		}  
   
 }
 	
