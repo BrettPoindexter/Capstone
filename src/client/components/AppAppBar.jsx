@@ -86,7 +86,7 @@ return (
 					boxShadow: 0,
 					bgcolor: 'transparent',
 					backgroundImage: 'none',
-					mt: 2,
+					mt: 4,
 				}}
 			>
 				<Container maxWidth='lg'>
@@ -286,7 +286,7 @@ return (
 					boxShadow: 0,
 					bgcolor: 'transparent',
 					backgroundImage: 'none',
-					mt: 2,
+					mt: 4,
 				}}
 			>
 				<Container maxWidth='lg'>
