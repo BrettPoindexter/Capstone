@@ -47,7 +47,6 @@ export default function SingleStadium() {
 			}
 		}
 		getSingleStadium(id);
-		console.log(singleStadium);
 	}, singleStadium);
 
 	// async function handleCommentSubmit(e, reviewId) {
@@ -84,7 +83,6 @@ export default function SingleStadium() {
 		e.preventDefault();
 		try {
 			const token = localStorage.getItem('token');
-			console.log(token);
 			if (!token) {
 				throw new Error('Not Authenticated');
 			}
@@ -111,7 +109,7 @@ export default function SingleStadium() {
 		} catch (error) {
 			console.error(error);
 			localStorage.removeItem('token');
-			// window.location.href = '/login';
+			window.location.href = '/login';
 		}
 	}
 
