@@ -23,6 +23,7 @@ import HoverRating from './HoverRating';
 import InputTags from './InputTags';
 import CommentsButton from './CommentsButton';
 import { Typography } from '@mui/material';
+import DisplayLocalTime from './DisplayLocalTime';
 
 export default function SingleStadium() {
 	const [singleStadium, setStadium] = useState();
@@ -32,7 +33,7 @@ export default function SingleStadium() {
 	const [newFoodRating, setNewFoodRating] = useState('');
 	const [newSceneryRating, setNewSceneryRating] = useState('');
 	const [newPricingRating, setNewPricingRating] = useState('');
-	const [newComment, setComment] = useState('');
+	const [newComment, setComment] = useState({});
 
 	useEffect(() => {
 		async function getSingleStadium(stadiumId) {
@@ -49,35 +50,35 @@ export default function SingleStadium() {
 		getSingleStadium(id);
 	}, singleStadium);
 
-	// async function handleCommentSubmit(e, reviewId) {
-	// 	e.preventDefault();
-	// 	try {
-	// 		const token = localStorage.getItem('token');
-	// 		if (!token) {
-	// 			throw new Error('Not Authenticated');
-	// 		}
+	async function handleCommentSubmit(e, reviewId) {
+		e.preventDefault();
+		try {
+			const token = localStorage.getItem('token');
+			if (!token) {
+				throw new Error('Not Authenticated');
+			}
 
-	// 		const response = await fetch(
-	// 			`http://localhost:3000/api/reviews/${reviewId}/comments`,
-	// 			{
-	// 				method: 'POST',
-	// 				headers: {
-	// 					'Content-Type': 'application/json',
-	// 					Authorization: `Bearer ${token}`,
-	// 				},
-	// 				body: JSON.stringify({
-	// 					text: newComment,
-	// 				}),
-	// 			}
-	// 		);
-	// 		const result = await response.json();
-	// 		console.log('Response:', result);
-	// 		setStadium(result.stadium);
-	// 		setComment('');
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// }
+			const response = await fetch(
+				`http://localhost:3000/api/reviews/${reviewId}/comments`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({
+						text: newComment[reviewId],
+					}),
+				}
+			);
+			const result = await response.json();
+			console.log('Response:', result);
+			setStadium(result.stadium);
+			setComment('');
+		} catch (error) {
+			console.error(error);
+		}
+	}
 
 	async function handleReviewSubmit(e) {
 		e.preventDefault();
@@ -202,20 +203,31 @@ export default function SingleStadium() {
 														</h4>
 														<p style={{ textAlign: 'left' }}>{review.text}</p>
 														<p style={{ textAlign: 'left', color: 'gray' }}>
-															{/* <TextField
+															<p style={{ textAlign: 'left' }}>
+																<DisplayLocalTime
+																	utcTimestamp={review.createdAt}
+																/>
+															</p>
+															<TextField
 																fullWidth
 																type='text'
 																variant='standard'
 																size='small'
 																sx={{ margin: '1rem 0' }}
 																margin='none'
-																value={newComment}
-																onChange={(e) => setComment(e.target.value)}
+																value={newComment[review.id] || ''}
+																onChange={(e) => setComment({...newComment, [review.id]: e.target.value})}
 																placeholder='Any comments?'
 															/>
-															<CommentsButton
-															// handleSubmit={handleCommentSubmit}
-															/> */}
+															<Button
+																variant='contained'
+																color='primary'
+																onClick={(e) =>
+																	handleCommentSubmit(e, review.id)
+																}
+															>
+																Add Comment
+															</Button>
 															<Rating
 																value={review.scenery_rating}
 																name='rating'
