@@ -15,6 +15,7 @@ import ToggleColorMode from './ToggleColorMode';
 import {jwtDecode} from 'jwt-decode';
 
 
+
 const logoStyle = {
 	width: '140px',
 	height: 'auto',
@@ -22,7 +23,13 @@ const logoStyle = {
     marginLeft: "2em"
 };
 
+const handleLogout = () => {
+	window.sessionStorage.removeItem("token");
+}
+
+
 function AppAppBar({ mode, toggleColorMode }) {
+	let token = window.sessionStorage.getItem("token");
 	const [open, setOpen] = React.useState(false);
 
 	const toggleDrawer = (newOpen) => () => {
@@ -43,38 +50,31 @@ function AppAppBar({ mode, toggleColorMode }) {
 		}
 	};
 
-	function Logout() {
-  window.sessionStorage.removeItem("token");
-	}
 
 	function IsValidToken() {
 		let result = false;
-		let token = window.sessionStorage.getItem("token");
-
-	if (token)
-		{
-let decodedToken = jwtDecode(token);
-  //console.log("Decoded Token", decodedToken);
+		
+		console.log(token);
+		 if (token !== null)
+			{
+				let decodedToken = jwtDecode(token);
+  console.log("Decoded Token", decodedToken);
+  
   let currentDate = new Date();
 
   // JWT exp is in seconds
   if (decodedToken.exp * 1000 < currentDate.getTime()) {
     console.log("Token expired.");
-	return result;
   } else {
 	result = true;
     console.log("Valid token");   
-    return result;
+    
   }
-		}
-		else
-		{
-			return result
-		}  
-  
+			}
+		return result;
+
 }
-	
-console.log(IsValidToken());
+
 
 if(IsValidToken())
 {
@@ -189,7 +189,7 @@ return (
 											color='error'
 											variant='contained'
 											component='a'
-											onClick={Logout()}
+											onClick={handleLogout}
 											href='/'
 											sx={{ width: '100%' }}
 										>
@@ -260,7 +260,7 @@ return (
 											color='error'
 											variant='contained'
 											component='a'
-											onClick={Logout()}
+											onClick={handleLogout}
 											href='/'
 											sx={{ width: '100%' }}
 										>

@@ -179,14 +179,15 @@ export default function SingleStadium() {
 									display: 'flex',
 									flexDirection: 'column',
 									alignItems: 'left',
-									pb: { xs: 8, sm: 12 },
+									pb: { xs: 8, sm: 12 }
+									
 								}}
 							>
 								<img src={singleStadium.image} />
 								<h2 style={{ textDecorationLine: 'underline' }}>
 									Reviews and Comments
 								</h2>
-								<span>
+								<span style={{height: '450px', overflowY: 'scroll'}}>
 									{singleStadium.reviews.map((review, index) => {
 										return (
 											<Paper
