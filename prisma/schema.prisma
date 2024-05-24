@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "http://localhost:5432/capstone_review_website"
+  url      = env("DATABASE_URL")
   // env("DATABASE_URL")
 }
 
@@ -45,13 +45,15 @@ model Review {
   userId         Int
   user           User      @relation(fields: [userId], references: [id])
   comments       Comment[]
+  createdAt      DateTime  @default(now())
 }
 
 model Comment {
-  id       Int    @id @default(autoincrement())
-  text     String
-  reviewId Int
-  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  userId   Int
-  user     User   @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  text      String
+  reviewId  Int
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
