@@ -3,7 +3,6 @@ import { api } from '../app/api';
 
 //Session Storage Key
 const TOKEN = "token";
-
 /**
  * API Endpoints
  */
