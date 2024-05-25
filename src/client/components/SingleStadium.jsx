@@ -22,8 +22,8 @@ import Stack from '@mui/material/Stack';
 import HoverRating from './HoverRating';
 import InputTags from './InputTags';
 import CommentsButton from './CommentsButton';
-import { Typography } from '@mui/material';
 import DisplayLocalTime from './DisplayLocalTime';
+
 
 export default function SingleStadium() {
 	const [singleStadium, setStadium] = useState();
@@ -34,7 +34,10 @@ export default function SingleStadium() {
 	const [newSceneryRating, setNewSceneryRating] = useState('');
 	const [newPricingRating, setNewPricingRating] = useState('');
 	const [newComment, setComment] = useState({});
+const token = window.sessionStorage.getItem('token');
 
+
+console.log(token);
 	useEffect(() => {
 		async function getSingleStadium(stadiumId) {
 			try {
@@ -240,17 +243,6 @@ export default function SingleStadium() {
 															<Chip label='#Good Food' />
 															<Chip label='#Clean' />
 														</Stack>
-														{/* {review.comments.map((comment, commentIndex) => (
-															<div
-																key={commentIndex}
-																style={{ marginTop: '1rem' }}
-															>
-																<Typography variant='subtitle2'>
-																	{comment.user.name}
-																</Typography>
-																<Typography>{comment.text}</Typography>
-															</div>
-														))} */}
 													</Grid>
 												</Grid>
 											</Paper>
@@ -260,6 +252,8 @@ export default function SingleStadium() {
 								<h2 style={{ textDecorationLine: 'underline' }}>
 									Leave a Review
 								</h2>
+								{token && 
+								
 								<Paper
 									style={{
 										padding: '40px 20px',
@@ -345,6 +339,15 @@ export default function SingleStadium() {
 										</Grid>
 									</Grid>
 								</Paper>
+								
+								}
+
+								{!token && 
+								
+								<p style={{color: 'maroon', fontWeight: 'bold'}}>Please <a href='/login'>Login</a> to leave a review</p>
+								
+								}
+								
 							</Container>
 							<Divider />
 							<FAQ />

@@ -51,23 +51,20 @@ function AppAppBar({ mode, toggleColorMode }) {
 	};
 
 
-	function IsValidToken() {
+function IsValidToken() {
 		let result = false;
 		
-		console.log(token);
 		 if (token !== null)
 			{
 				let decodedToken = jwtDecode(token);
-  console.log("Decoded Token", decodedToken);
   
   let currentDate = new Date();
 
   // JWT exp is in seconds
   if (decodedToken.exp * 1000 < currentDate.getTime()) {
-    console.log("Token expired.");
+    
   } else {
-	result = true;
-    console.log("Valid token");   
+	result = true;  
     
   }
 			}
