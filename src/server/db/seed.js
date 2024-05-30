@@ -1,7 +1,8 @@
-require("dotenv").config();
+require('dotenv').config();
 const faker = require('faker');
 const prisma = require('./index.js');
 const bcrypt = require('bcrypt');
+const { ReportGmailerrorred } = require('@mui/icons-material');
 
 // Seed function
 
@@ -321,6 +322,21 @@ async function seedData() {
 	} finally {
 		await prisma.$disconnect();
 	}
+
+	// Create Admin
+
+	const password = await bcrypt.hash('adminpassword', 8);
+
+	await prisma.User.create({
+		data: {
+			name: 'Admin',
+			email: "admin@gmail.com",
+			password: password,
+			admin: true,
+		},
+	});
+
+	console.log('Admin created');
 }
 
 if (require.main === module) {

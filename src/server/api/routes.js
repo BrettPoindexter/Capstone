@@ -4,8 +4,65 @@ const prisma = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authenticateToken = require('./authenticate');
-
+const checkAdmin = require('../db/isAdmin')
 const { createUser, getUserByEmail } = require('../db/users');
+
+// Get all users as admin
+
+router.get('/admin/users', authenticateToken, checkAdmin, async (req, res, next) => {
+	try {
+	  const users = await prisma.User.findMany();
+	  res.json({ users });
+	} catch ({ name, message }) {
+	  next({ name, message });
+	}
+  });
+
+  // Admin route to delete user
+
+  router.delete('/admin/users/:id', authenticateToken, checkAdmin, async (req, res, next) => {
+	try {
+	  const userId = parseInt(req.params.id);
+	  await prisma.User.delete({
+		where: {
+		  id: userId,
+		},
+	  });
+	  res.json({ message: 'User deleted' });
+	} catch ({ name, message }) {
+	  next({ name, message });
+	}
+  });
+  
+  // Admin route to promote a user to admin
+
+  router.put('/admin/users/:userId/admin', authenticateToken, checkAdmin, async (req, res, next) => {
+	try {
+	  const userId = parseInt(req.params.userId);
+	  await prisma.User.update({
+		where: {
+		  id: userId,
+		},
+		data: {
+		  admin: true,
+		},
+	  });
+	  res.json({ message: 'Admin privileges granted!' });
+	} catch (error) {
+	  next(error);
+	}
+  });
+  
+  // Admin route to get all stadiums
+
+  router.get('/admin/stadiums', authenticateToken, checkAdmin, async (req, res, next) => {
+	try {
+	  const stadiums = await prisma.Stadium.findMany();
+	  res.json({ stadiums });
+	} catch ({ name, message }) {
+	  next({ name, message });
+	}
+  });
 
 // Get all stadiums
 
