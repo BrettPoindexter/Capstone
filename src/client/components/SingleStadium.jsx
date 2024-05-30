@@ -42,7 +42,7 @@ console.log(token);
 		async function getSingleStadium(stadiumId) {
 			try {
 				const response = await fetch(
-					`http://localhost:3000/api/stadiums/${stadiumId}`
+					`/api/stadiums/${stadiumId}`
 				);
 				const result = await response.json();
 				setStadium(result.stadium);
@@ -62,7 +62,7 @@ console.log(token);
 			}
 
 			const response = await fetch(
-				`http://localhost:3000/api/reviews/${reviewId}/comments`,
+				`/api/reviews/${reviewId}/comments`,
 				{
 					method: 'POST',
 					headers: {
@@ -90,7 +90,7 @@ console.log(token);
 			if (!token) {
 				throw new Error('Not Authenticated');
 			}
-			const response = await fetch(`http://localhost:3000/api/stadiums/${id}`, {
+			const response = await fetch(`/api/stadiums/${id}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
