@@ -36,8 +36,6 @@ export default function SingleStadium() {
 	const [newComment, setComment] = useState({});
 const token = window.sessionStorage.getItem('token');
 
-
-console.log(token);
 	useEffect(() => {
 		async function getSingleStadium(stadiumId) {
 			try {
@@ -75,7 +73,6 @@ console.log(token);
 				}
 			);
 			const result = await response.json();
-			console.log('Response:', result);
 			setStadium(result.stadium);
 			setComment('');
 		} catch (error) {
@@ -104,7 +101,6 @@ console.log(token);
 				}),
 			});
 			const result = await response.json();
-			console.log('Response:', result);
 			setStadium(result.stadium);
 			setReview('');
 			setNewFoodRating('');
@@ -266,8 +262,7 @@ console.log(token);
 											<h4
 												style={{ margin: 0, textAlign: 'left', color: 'blue' }}
 											>
-												{/* If IsLoggedIn() show this comments and rating panel,
-												else show Login to post reviews link{' '} */}
+												
 											</h4>
 											<InputTags />
 											<Grid container direction={'row'} spacing={5}>
