@@ -9,10 +9,10 @@ async function seedData() {
 	try {
 		// Clear database
 
-		await prisma.comment.deleteMany();
-		await prisma.review.deleteMany();
-		await prisma.stadium.deleteMany();
-		await prisma.user.deleteMany();
+		// await prisma.comment.deleteMany();
+		// await prisma.review.deleteMany();
+		// await prisma.stadium.deleteMany();
+		// await prisma.user.deleteMany();
 
 		// Create 64 users
 
